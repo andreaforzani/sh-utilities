@@ -1,0 +1,32 @@
+#!/bin/bash
+
+snake_to_pascal() {
+    # Works on macOS default Bash (3.2) and BSD awk.
+    printf '%s\n' "$1" | awk -F'[_-]' '{
+        out = ""
+        for (i = 1; i <= NF; i++) {
+            if (length($i) == 0) {
+                continue
+            }
+            part = tolower($i)
+            out = out toupper(substr(part, 1, 1)) substr(part, 2)
+        }
+        print out
+    }'
+}
+
+name=$1
+
+mkdir -p app/$name
+touch app/$name/main.js
+touch app/$name/settings.js
+mkdir -p app/$name/ctrls
+mkdir -p app/$name/models
+mkdir -p app/$name/views
+touch app/$name/views/PageView.js
+mkdir -p private/api/$name
+touch private/api/$name/$(snake_to_pascal "$name")Api.php
+touch private/contents/$name.it.tpl
+touch private/logics/$(snake_to_pascal "$name")Logic.php
+mkdir -p private/webservices/$name
+touch private/webservices/$name/$(snake_to_pascal "$name")Ws.php
